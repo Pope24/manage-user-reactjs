@@ -1,0 +1,10 @@
+.Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.bgblue {
+  background: #08355e;
+  color: #fff;
+}
