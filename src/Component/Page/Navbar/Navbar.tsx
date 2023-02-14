@@ -1,10 +1,12 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import Styles from "./Navbar.module.css";
 type Props = {
   setIsLogin: Function;
 };
 
 const Navbar = (props: Props) => {
+  const { idUser } = useParams();
   const { setIsLogin } = props;
   return (
     <div className={Styles.Navbar}>
@@ -13,7 +15,11 @@ const Navbar = (props: Props) => {
         style={{ background: "#0a4275", color: "#fff" }}
       >
         <div className="container-fluid">
-          <a href="#" className="navbar-brand" style={{ color: "#fff" }}>
+          <a
+            href="#"
+            className="navbar-brand"
+            style={{ color: "#fff", fontWeight: 700 }}
+          >
             System manager
           </a>
           <button
@@ -26,20 +32,20 @@ const Navbar = (props: Props) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav">
-              <a
-                href="#"
-                className="nav-item nav-link active"
-                style={{ color: "#fff" }}
+              <Link
+                className="nav-item nav-link"
+                style={{ color: "#fff", fontWeight: 700 }}
+                to={`/`}
               >
                 Home
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
                 className="nav-item nav-link"
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontWeight: 700 }}
+                to={`/add-user`}
               >
-                Profile
-              </a>
+                Add more
+              </Link>
               <a
                 href="#"
                 className="nav-item nav-link"
@@ -56,7 +62,7 @@ const Navbar = (props: Props) => {
               </a>
             </div>
             <div
-              className="navbar-nav ms-auto"
+              className={`navbar-nav ms-auto ${Styles.Hover__Cursor}`}
               onClick={() => {
                 setIsLogin(false);
               }}

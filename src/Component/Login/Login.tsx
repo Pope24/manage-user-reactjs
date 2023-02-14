@@ -16,7 +16,7 @@ const Login = (props: Props) => {
     setPassword(e.target.value);
   };
   const handleSubmit = () => {
-    if (userName === "aptech" && password === "aptech") {
+    if (userName === "chinh" && password === "chinh") {
       setIsLogin(true);
     } else {
       alert("Incorrect !! Try again...");

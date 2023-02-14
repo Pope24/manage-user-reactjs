@@ -19,9 +19,10 @@ interface IUSER {
 const Home = (props: Props) => {
   const { setIsLogin } = props;
   const [listUsers, setListUsers] = useState<Array<IUSER>>([]);
+  const [statusDelete, setStatusDelete] = useState(false);
   useEffect(() => {
     renderListUsers();
-  }, []);
+  }, [statusDelete && true]);
   const renderListUsers = () => {
     fetch("https://63e0e52365b57fe6064be4bd.mockapi.io/users", {
       method: "GET",
@@ -29,9 +30,19 @@ const Home = (props: Props) => {
       .then((response) => response.json())
       .then((data) => setListUsers(data));
   };
+  const handleDeleteUser = (id: number) => {
+    fetch(`https://63e0e52365b57fe6064be4bd.mockapi.io/users/${id}`, {
+      method: "DELETE", // Method itself
+      headers: {
+        "Content-type": "application/json; charset=UTF-8", // Indicates the content
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setStatusDelete(true)) // Manipulate the data retrieved back, if we want to do something with it
+      .catch((err) => console.log(err));
+  };
   return (
     <div style={{ marginTop: 57 }}>
-      <Navbar setIsLogin={setIsLogin} />
       <table className="table align-middle mb-0 bg-white">
         <thead className="bg-light">
           <tr>
@@ -44,7 +55,7 @@ const Home = (props: Props) => {
         <tbody>
           {listUsers.map((user, index) => {
             return (
-              <tr key={user.id}>
+              <tr key={index}>
                 <td>
                   <div className="d-flex align-items-center">
                     <img
@@ -77,17 +88,15 @@ const Home = (props: Props) => {
                 <td>
                   <Link
                     className="btn btn-link btn-sm btn-rounded"
-                    to="/detail/:id"
+                    to={`/detail/${user.id}`}
                   >
                     Detail
                   </Link>
-                  <Link
-                    className="btn btn-link btn-sm btn-rounded"
-                    to="/edit/:id"
-                  >
-                    Edit
-                  </Link>
                   <button
+                    onClick={() => {
+                      setStatusDelete(false);
+                      handleDeleteUser(user.id);
+                    }}
                     type="button"
                     className="btn btn-link btn-sm btn-rounded"
                   >
@@ -99,7 +108,6 @@ const Home = (props: Props) => {
           })}
         </tbody>
       </table>
-      <Footer />
     </div>
   );
 };
